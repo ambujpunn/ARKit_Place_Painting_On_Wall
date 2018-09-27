@@ -128,7 +128,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     // 5.3
     func addPainting(_ hitResult: ARHitTestResult, _ grid: Grid) {
         // 1.
-        let planeGeometry = SCNPlane(width: 0.1, height: 0.1)
+        let planeGeometry = SCNPlane(width: 0.53, height: 0.77)
         let material = SCNMaterial()
         material.diffuse.contents = UIImage(named: "mona_lisa")
         planeGeometry.materials = [material]
