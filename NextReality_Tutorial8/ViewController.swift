@@ -13,7 +13,6 @@ import ARKit
 class ViewController: UIViewController, ARSCNViewDelegate {
 
     @IBOutlet var sceneView: ARSCNView!
-    // 4.2
     var grids = [Grid]()
     
     override func viewDidLoad() {
@@ -24,11 +23,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         // Show statistics such as fps and timing information
         sceneView.showsStatistics = true
-        // 4.4
         sceneView.debugOptions = ARSCNDebugOptions.showFeaturePoints
         
         // Create a new scene
-        // 4.1
         let scene = SCNScene()
 
         // Set the scene to the view
@@ -40,7 +37,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         // Create a session configuration
         let configuration = ARWorldTrackingConfiguration()
-        // 4.5
         configuration.planeDetection = .vertical
 
         // Run the view's session
@@ -85,7 +81,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
     }
     
-    // 4.3
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         guard let planeAnchor = anchor as? ARPlaneAnchor, planeAnchor.alignment == .vertical else { return }
         let grid = Grid(anchor: planeAnchor)
