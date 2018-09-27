@@ -118,22 +118,14 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Translate those 2D points to 3D points using hitTest (existing plane)
         let hitTestResults = sceneView.hitTest(touchPosition, types: .existingPlaneUsingExtent)
         
-        // Get hitTest results and ensure that the hitTest corresponds to a vertical plane anchor
-        //guard let hitTest = hitTestResults.first, let anchor = hitTest.anchor as? ARPlaneAnchor, anchor.alignment == .vertical else {
+        // Get hitTest results and ensure that the hitTest corresponds to a grid that has been placed on a wall
         guard let hitTest = hitTestResults.first, let anchor = hitTest.anchor as? ARPlaneAnchor, let gridIndex = grids.index(where: { $0.anchor == anchor }) else {
-        //guard let hitTest = hitTestResults.first else {
             return
         }
-        //addPainting(hitTest)
-        //addPainting(anchor)
-        //addPainting(anchor, grids[gridIndex])
         addPainting(hitTest, grids[gridIndex])
     }
     
     // 5.3
-    //func addPainting(_ hitResult: ARHitTestResult) {
-//    func addPainting(_ anchor: ARPlaneAnchor) {
-//    func addPainting(_ anchor: ARPlaneAnchor, _ grid: Grid) {
     func addPainting(_ hitResult: ARHitTestResult, _ grid: Grid) {
         // 1.
         let planeGeometry = SCNPlane(width: 0.1, height: 0.1)
@@ -145,11 +137,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         let paintingNode = SCNNode(geometry: planeGeometry)
         paintingNode.transform = SCNMatrix4(hitResult.anchor!.transform)
         paintingNode.eulerAngles = SCNVector3(paintingNode.eulerAngles.x + (-Float.pi / 2), paintingNode.eulerAngles.y, paintingNode.eulerAngles.z)
-        // Add a bit to the x coordinate so it appears slightly in front of the wall since we're adding a 2D plane not a 3D object (no depth)
         paintingNode.position = SCNVector3(hitResult.worldTransform.columns.3.x, hitResult.worldTransform.columns.3.y, hitResult.worldTransform.columns.3.z)
-        //paintingNode.eulerAngles = SCNVector3(grid.eulerAngles.x, grid.eulerAngles.y, grid.eulerAngles.z)
-        //paintingNode.position = SCNVector3(anchor.center.x, 0, anchor.center.z)
-        //paintingNode.transform = SCNMatrix4MakeRotation(Float(-Double.pi / 2.0), 1.0, 0.0, 0.0);
+        
         sceneView.scene.rootNode.addChildNode(paintingNode)
         grid.removeFromParentNode()
     }
